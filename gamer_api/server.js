@@ -16,6 +16,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
 const router = require('./routes/playersRouter')
+
+app.use("/", router);
+
 app.use('/api/gamer/users', router)
 app.use('/api/gamer/skills', router)
 
