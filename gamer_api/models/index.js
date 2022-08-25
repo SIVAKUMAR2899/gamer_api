@@ -37,10 +37,10 @@ db.sequelize = sequelize
 db.users = require('./usermodel')(sequelize, DataTypes)
 db.skills = require('./skillmodel')(sequelize, DataTypes)
 
-db.sequelize.sync({ force: false })
-.then(() => {
-    console.log('yes re-sync done!')
-})
+// db.sequelize.sync({ force: false })
+// .then(() => {
+//     console.log('yes re-sync done!')
+// })
 
 
 module.exports = db;
