@@ -41,13 +41,13 @@ const options ={
 
 const specs = swaggerJsDoc(options)
 
-app.get('/',(req,res) => {
-  res.send("GAMER");
-}); 
+// app.get('/',(req,res) => {
+//   res.send("GAMER");
+// }); 
 
 app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(specs));
 
-const PORT =process.env.PORT || 5000
+const PORT = process.env.PORT || 5000
 
 app.listen(PORT,()=>{
     console.log('server is runningon port ${PORT}');

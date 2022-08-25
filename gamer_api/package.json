@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev":"nodemon./server.js localhost:5000",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev":"nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
