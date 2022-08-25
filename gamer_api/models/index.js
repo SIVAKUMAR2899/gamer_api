@@ -20,13 +20,13 @@ const sequelize = new Sequelize(
     }
 )
 
-sequelize.authenticate()
-.then(()=>{
-    console.log('connected..')
-})
-.catch(err => {
-    console.log('Error'+ err)
-})
+// sequelize.authenticate()
+// .then(()=>{
+//     console.log('connected..')
+// })
+// .catch(err => {
+//     console.log('Error'+ err)
+// })
 
 const db = {}
 
