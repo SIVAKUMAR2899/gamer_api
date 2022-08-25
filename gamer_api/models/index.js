@@ -30,8 +30,8 @@ const sequelize = new Sequelize(
 
 const db = {}
 
-db.Sequelize = Sequelize
-db.sequelize = sequelize
+// db.Sequelize = Sequelize
+// db.sequelize = sequelize
 
 
 db.users = require('./usermodel')(sequelize, DataTypes)
