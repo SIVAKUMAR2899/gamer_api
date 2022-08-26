@@ -8,7 +8,7 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 
 var corOptions = {
-    origin: "http://localhost:5000"
+    origin: "sql10.freemysqlhosting.net"
 }
 
 app.use(cors(corOptions)); 
@@ -32,7 +32,7 @@ const options ={
     },
     servers: [
       {
-       url: "http://localhost:5000",
+       url: "sql10.freemysqlhosting.net",
       },
     ],
   },
