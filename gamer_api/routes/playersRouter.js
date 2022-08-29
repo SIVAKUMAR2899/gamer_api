@@ -3,13 +3,13 @@ const Skillcontroller = require('../controllers/skillcontroller')
 
 const router = require('express').Router()
 
-router.get('/', (req, res)=>{
+// router.get('/', (req, res)=>{
 
-    res.json({
-        code: 200, 
-        Message: "Success"
-    })
-});
+//     res.json({
+//         code: 200, 
+//         Message: "Success"
+//     })
+// });
 //User
 
 router.post('/adduser',Usercontroller.addUser)
