@@ -4,7 +4,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
-const db = require("./config/dbconfig")
+// const db = require("./config/dbconfig")
 // var corOptions = {
 //     origin: "http://localhost:5000"
 // }
@@ -34,8 +34,8 @@ const app = express();
 
 // app.use("/", router);
 
-// app.use('/api/gamer/users', router)
-// app.use('/api/gamer/skills', router)
+// app.use('/api-docs/api/gamer/users', router)
+// app.use('/api-docs/api/gamer/skills', router)
 
 
 app.get('/',(req,res) => {
