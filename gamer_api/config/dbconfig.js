@@ -1,10 +1,10 @@
 var mysql = require('mysql');
 
 module.exports = {
-    HOST :"localhost",
-    DB:"gamer",
-    USER:"root",
-    PASSWORD:"sivakumar12345",
+    HOST :"sql10.freemysqlhosting.net",
+    DB:"sql10515123",
+    USER:"sql10515123",
+    PASSWORD:"pbhxvU42tX",
     dialect:"mysql",
 
     pool:{
