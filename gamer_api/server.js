@@ -32,18 +32,18 @@ const specs = swaggerJsDoc(options)
 
 const app = express();
 
-// app.use("/", router);
 
-// app.use('/api/gamer/users', router)
-// app.use('/api/gamer/skills', router)
-
-
-// app.get('/',(req,res) => {
-//   res.send("GAMER");
-// }); 
+app.get('/',(req,res) => {
+  res.send("GAMER");
+}); 
 
 
 app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(specs));
+
+app.use("/", router);
+
+app.use('/api/gamer/users', router)
+app.use('/api/gamer/skills', router)
 
 // app.use(cors(corOptions)); 
 app.use(cors()); 
