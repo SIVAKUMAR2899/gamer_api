@@ -4,6 +4,10 @@ const morgan = require("morgan");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const router = require('./routes/playersRouter')
+
+const admin = require("firebase-admin");
+const db = require("./db");
+
 // const db = require("./config/dbconfig")
 // var corOptions = {
 //     origin: "http://localhost:5000"
@@ -32,6 +36,14 @@ const specs = swaggerJsDoc(options)
 
 const app = express();
 
+// app.use(cors(corOptions)); 
+app.use(cors()); 
+app.use(express.json());
+app.use(morgan("dev"));
+app.use(express.urlencoded({extended: true}))
+app.use(express.static("public"));
+app.set("view engine", "ejs");
+
 
 app.get('/',(req,res) => {
   res.send("GAMER");
@@ -44,12 +56,6 @@ app.use("/", router);
 
 app.use('/api/gamer/users', router)
 app.use('/api/gamer/skills', router)
-
-// app.use(cors(corOptions)); 
-app.use(cors()); 
-app.use(express.json());
-app.use(morgan("dev"));
-app.use(express.urlencoded({extended: true}))
 
 
 
