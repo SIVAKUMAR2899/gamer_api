@@ -1,5 +1,6 @@
-const Usercontroller = require('../controllers/usercontroller')
-const Skillcontroller = require('../controllers/skillcontroller')
+const Usercontroller = require('../controllers/usercontroller');
+const Skillcontroller = require('../controllers/skillcontroller');
+const {checktoken} = require('../auth/checktoken');
 
 const router = require('express').Router()
 
@@ -16,13 +17,13 @@ router.post('/adduser',Usercontroller.addUser)
 
 router.post('/login',Usercontroller.login)
 
-router.get('/alluser',Usercontroller.getAllUser)
+router.get('/alluser',checktoken,Usercontroller.getAllUser)
 
-router.get('/:id',Usercontroller.getOneUser)
+router.get('/:id',checktoken,Usercontroller.getOneUser)
 
-router.put('/:id',Usercontroller.updateUser)
+router.put('/:id',checktoken,Usercontroller.updateUser)
 
-router.delete('/:id',Usercontroller.deleteUser)
+router.delete('/:id',checktoken,Usercontroller.deleteUser)
 
 //skills
 

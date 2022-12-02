@@ -2,7 +2,7 @@
 const { users } = require('../models');
 const db = require('../models');
 const { sign } = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const { hashSync,genSaltSync,compareSync } = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const Player = db.users
@@ -11,22 +11,27 @@ const Player = db.users
 
 const addUser = async (req, res) => {
     console.log('hi');
-    // let info = {
-    //     id: req.body.id,
-    //     firstname: req.body.firstname,
-    //     lastname: req.body.lastname,
-    //     age: req.body.age,
-    //     gender: req.body.gender,
-    //     email: req.body.email,
-    //     contact: req.body.contact,
-    //     address: req.body.address,
-    //     password: req.body.password,
-    //     created_at: "24-08-2022",
-    //     updated_at: "24-08-2022"
-    // }
-    const body = req.body;
+
+    // let pwdHashed = bcrypt.hash( req.body.password, 10);
+    const salt = genSaltSync(10);
+    let info = {
+        id: req.body.id,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        age: req.body.age,
+        gender: req.body.gender,
+        email: req.body.email,
+        contact: req.body.contact,
+        address: req.body.address,
+        password:hashSync(req.body.password,salt),
+        // created_at: "24-08-2022",
+        // updated_at: "24-08-2022"
+    }
+    // const body = req.body;
+    // const salt = genSaltSync(10);
+    // body.password = hashSync(body.password,salt);
     console.log(req.body);
-    const users = await Player.create(body)
+    const users = await Player.create(info)
     res.status(200).json({
         code: res.statusCode,
         data: users,
@@ -47,22 +52,36 @@ const login = async (req,res) => {
     //             message : "invalid email"
     //         })
     //     }
-    const body = req.body;
-        const result =bcrypt.compare(body.password,users.password);
+    const { email,password } = req.body;
+    let user = await Player.findOne({ where : { email : email}});
+    if(!user){
+        return res.json({
+            success : 0,
+            message : "invalid email"
+        });
+    }
+    let userid = user.id;
+        const result = compareSync(password,user.password);
         if(result){
-            const token = jwt.sign({ result: users},"asd1234",{expiresIn:60});
+            const newtoken = jwt.sign({ result: user},"asd1234",{expiresIn:3600});
+            let email = req.params.email;
+            let jsonwtoken =await Player.update({token:newtoken},{where: {id:userid}});
+
             return res.json({
-                success:1,
+                code:1,
                 message:"login success",
-                token:token
+                token:newtoken
             });
         }else{
             return res.json({
-                success : 0,
-                message : "login failed",
+                code : 0,
+                message : "Invalid password",
 
             });
         }
+        // const jsonwtoken =await Player.update(
+        //     {token: token},{where: {email:email}}
+        // );
     
 }
 

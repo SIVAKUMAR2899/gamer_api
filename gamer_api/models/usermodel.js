@@ -31,12 +31,19 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         createdAt: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
         },
         updatedAt: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
+        },
+        token: {
+            type: DataTypes.STRING,
         }
-    }
+
+    },
+        {
+            timestamps: false
+        }
     );
 
     return Player
