@@ -14,6 +14,8 @@ const router = require('express').Router()
 
 router.post('/adduser',Usercontroller.addUser)
 
+router.post('/login',Usercontroller.login)
+
 router.get('/alluser',Usercontroller.getAllUser)
 
 router.get('/:id',Usercontroller.getOneUser)

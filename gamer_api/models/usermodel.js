@@ -27,17 +27,16 @@ module.exports = (sequelize, DataTypes) => {
         address: {
             type: DataTypes.STRING,
         },
+        password:{
+            type: DataTypes.STRING
+        },
         createdAt: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
         },
         updatedAt: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
         }
-
-    },
-        {
-            timestamps: false
-        }
+    }
     );
 
     return Player
