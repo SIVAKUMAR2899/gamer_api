@@ -1,6 +1,7 @@
 const Usercontroller = require('../controllers/usercontroller');
 const Skillcontroller = require('../controllers/skillcontroller');
 const {checktoken} = require('../auth/checktoken');
+const { verifytoken } = require('../auth/verifytoken');
 
 const router = require('express').Router()
 
@@ -19,11 +20,11 @@ router.post('/login',Usercontroller.login)
 
 router.get('/alluser',checktoken,Usercontroller.getAllUser)
 
-router.get('/:id',checktoken,Usercontroller.getOneUser)
+router.get('/:id',checktoken,verifytoken,Usercontroller.getOneUser)
 
-router.put('/:id',checktoken,Usercontroller.updateUser)
+router.put('/:id',checktoken,verifytoken,Usercontroller.updateUser)
 
-router.delete('/:id',checktoken,Usercontroller.deleteUser)
+router.delete('/:id',checktoken,verifytoken,Usercontroller.deleteUser)
 
 //skills
 

@@ -4,7 +4,7 @@ module.exports={
         let token = req.get("authorization");
         if(token){
             token = token.slice(7);
-            jwt.verify(token,"asd1234",(err,decoded)=>{
+            jwt.verify(token,"abcd1234",(err,decoded)=>{
                 if(err){
                     return res.json({
                         status:0,
