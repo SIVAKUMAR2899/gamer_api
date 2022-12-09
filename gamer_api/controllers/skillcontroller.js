@@ -41,6 +41,8 @@ const getallskills = async (req, res) => {
 const getoneskills = async (req, res) => {
     let sid = req.params.sid
     let skills = await Playerskill.findOne({ where: { sid: sid } })
+    let skillid = skills.id;
+    console.log(skillid);
     if (!skills) {
         res.status(404).json({
             message: 'Data not found'
@@ -54,21 +56,11 @@ const updateskills = async (req, res,err) => {
     console.log("UpdateSkill: ", req.body);
 
     let sid = req.params.sid
-    let skills = await Playerskill.update(req.body, { where: { sid: sid } })
-    // if (err) {
-    //     res.status(500).json({
-    //         code: res.statusCode,
-    //         message: 'failed'
-    //     })
-       
-    // }
-    // else {
+    let skills = await Playerskill.update(req.body, { where: { sid: sid } });
         res.status(200).json({
-            code: res.statusCode,
-            // data: skills,
+            code: res.statusCode,   
             message: 'Successfully updated'
         })
-    // }
 }
 
 //5.delete skills

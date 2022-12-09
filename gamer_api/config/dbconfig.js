@@ -2,7 +2,7 @@ var mysql = require('mysql');
 
 module.exports = {
     HOST :"localhost",
-    DB:"gamer",
+    DB:"ludo",
     USER:"root",
     PASSWORD:"sivakumar12345",
     dialect:"mysql",

@@ -2,52 +2,36 @@
 const { users } = require('../models');
 const db = require('../models');
 const { sign } = require('jsonwebtoken');
-const { hashSync,genSaltSync,compareSync, compare } = require('bcrypt');
+const { hashSync,genSaltSync,compareSync } = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-const Player = db.users
+const Player = db.users;
+const Token = db.user_token;
 
 //1.post method
 
 const addUser = async (req, res) => {
-    // console.log('hi');
-
     const salt = genSaltSync(10);
-    let info = {
-        id: req.body.id,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        age: req.body.age,
-        gender: req.body.gender,
-        email: req.body.email,
-        contact: req.body.contact,
-        address: req.body.address,
-        password:hashSync(req.body.password,salt),
-        // created_at: "24-08-2022",
-        // updated_at: "24-08-2022"
+    const body = req.body;
+    body.password = hashSync(req.body.password,salt);
+    //  console.log(body.password);
+    const users = await Player.create(body);
+    if(users){
+        res.status(200).json({
+            code: res.statusCode,
+            data: users,
+            message: 'user saved successfully'
+        });
+    }else{
+        return res.json({
+            status:0,
+            message:"user doesn't saved"
+        });
     }
-    // console.log(req.body);
-    const users = await Player.create(info)
-    res.status(200).json({
-        code: res.statusCode,
-        data: users,
-        message: 'success'
-    });
-    // console.log(users)
 }
 
+// 2.login
+
 const login = async (req,res) => {
-   
-    // getuserbyemail(body.email,(err,results)=>{
-    //     if(err){
-    //         console.log(err);
-    //     }
-    //     if(!results){
-    //         return res.json({
-    //             success : 0 ,
-    //             message : "invalid email"
-    //         })
-    //     }
     const { email,password } = req.body;
     let user = await Player.findOne({ where : { email : email}});
     if(!user){
@@ -56,12 +40,14 @@ const login = async (req,res) => {
             message : "invalid email"
         });
     }
-    let userid = user.id;
+    let userid = user.user_id;
+    console.log(userid);
         const result = compareSync(password,user.password);
         if(result){
             const newtoken = jwt.sign({ result: user},"abcd1234",{expiresIn:3600});
-            let jsonwtoken =await Player.update({token:newtoken},{where: {id:userid}});
-
+            console.log(newtoken);
+            let token =await Token.create({device_token:newtoken},{where: {user_id:userid}});
+            console.log(token);
             return res.json({
                 code:1,
                 message:"login success",
@@ -76,51 +62,105 @@ const login = async (req,res) => {
         }
 }
 
-//2.get all users
+// 3.update password
+
+const updatePassword = async (req,res) => {
+
+    const { email,oldpassword,newpassword} = req.body;
+    let user = await Player.findOne({ where : { email : email}});
+    if(!user){
+        return res.json({
+            success : 0,
+            message : "invalid email"
+        });
+    }
+    let userid = user.user_id;
+    console.log(userid);
+
+    const Password = compareSync(oldpassword,user.password);
+    console.log(Password);
+
+    if(Password){
+        const salt = genSaltSync(10);
+        let hpassword = hashSync(newpassword,salt);
+        console.log(hpassword);
+        const password=hpassword;
+        
+
+        const new_password = await Player.update(password,{ where: { user_id: userid}});
+        console.log(userid);
+        console.log(user.user_id);
+        console.log(Player.Password);
+
+        return res.json({
+            status:1,
+            message:"Password updated successfully"
+        });
+    }else{
+        return res.json({
+            status:0,
+            message:"Password doesn't update"
+        });
+    }
+}
+
+//4.get all users
 
 const getAllUser = async (req, res) => {
-    let users = await Player.findAll({
-        attributes: [
-            'id',
-            'firstname',
-            'lastname',
-            'age',
-            'gender',
-            'email',
-            'contact',
-            'address'
-        ]
-    })
-    res.status(200).send(users)
+    let users = await Player.findAll({Player});
+    if(users){
+        res.status(200).send(users);
+    }else{
+        return res.json({
+            status:0,
+            message:"User doesn't return successfully"
+        })
+    }
 }
 
-//3.get by id
+//5.get by id
 
 const getOneUser = async (req, res) => {
-    let id = req.params.id
-    let users = await Player.findOne({ where: { id: id } });
-    return res.status(200).send(users);
-
-    
+    let user_id = req.params.user_id
+    let users = await Player.findOne({ where: { user_id: user_id } });
+    if(users){
+        return res.status(200).json({
+            data:users
+        });
+    }else{
+        return res.json({
+            status:0,
+            message:"User is invalid"
+        });
+    }  
 }
 
-//4.put method
+//6.edit profile method
 
 const updateUser = async (req, res) => {
-    let id = req.params.id
-    const users = await Player.update(req.body, { where: { id: id } });
-    res.status(200).json({
-        data: users,
-        code: res.statusCode,
-        message: 'success'
-    })
+    let user_id = req.params.user_id
+    const users = await Player.update(req.body, { where: { user_id: user_id } });
+    if(users){
+        res.status(200).json({
+            data: users,
+            code: res.statusCode,
+            message: 'User update success'
+        });
+    }else{
+        return res.json({
+            status:0,
+            message:"User update failed"
+        });
+    }
 }
 
-//5.delete method
+
+
+//7.delete method
 
 const deleteUser = async (req, res) => {
-    let id = req.params.id
-    await users.destroy({ where: { id: id } })
+    let user_id = req.params.user_id
+    await users.destroy({ where: { user_id: user_id } })
     res.status(200).json({
         code: res.statusCode,
         data: users,
@@ -134,5 +174,6 @@ module.exports = {
     getOneUser,
     updateUser,
     deleteUser,
-    login
+    login,
+    updatePassword
 };

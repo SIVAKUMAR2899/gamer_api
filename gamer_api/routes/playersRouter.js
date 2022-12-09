@@ -18,13 +18,15 @@ router.post('/adduser',Usercontroller.addUser)
 
 router.post('/login',Usercontroller.login)
 
-router.get('/alluser',checktoken,Usercontroller.getAllUser)
+router.post('/updatePassword',Usercontroller.updatePassword)
 
-router.get('/:id',checktoken,verifytoken,Usercontroller.getOneUser)
+router.get('/alluser',Usercontroller.getAllUser)
 
-router.put('/:id',checktoken,verifytoken,Usercontroller.updateUser)
+router.get('/:user_id',Usercontroller.getOneUser)
 
-router.delete('/:id',checktoken,verifytoken,Usercontroller.deleteUser)
+router.put('/:user_id',Usercontroller.updateUser)
+
+router.delete('/:user_id',Usercontroller.deleteUser)
 
 //skills
 
