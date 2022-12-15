@@ -4,7 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     const Token = sequelize.define('user_token', {
         token_id:{
             type: DataTypes.INTEGER,
+            // allowNull: false,
+            autoincrement: true,
             primaryKey: true
+            
         },
         user_id:{
             type: DataTypes.INTEGER,
@@ -12,14 +15,15 @@ module.exports = (sequelize, DataTypes) => {
         },
         device_token: {
             type: DataTypes.STRING,
+            length:60000
         },
         time:{
-            type: DataTypes.TEXT
+            type: DataTypes.TIME
         }
     },
-    {
-        timestamps: false
-    }
+       {
+           timestamps: false
+       }
     );
     return Token
 };

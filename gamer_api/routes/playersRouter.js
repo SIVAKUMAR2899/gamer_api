@@ -5,14 +5,6 @@ const { verifytoken } = require('../auth/verifytoken');
 
 const router = require('express').Router()
 
-// router.get('/', (req, res)=>{
-
-//     res.json({
-//         code: 200, 
-//         Message: "Success"
-//     })
-// });
-//User
 
 router.post('/adduser',Usercontroller.addUser)
 
@@ -20,13 +12,13 @@ router.post('/login',Usercontroller.login)
 
 router.post('/updatePassword',Usercontroller.updatePassword)
 
-router.get('/alluser',Usercontroller.getAllUser)
+router.get('/alluser',checktoken,Usercontroller.getAllUser)
 
-router.get('/:user_id',Usercontroller.getOneUser)
+router.get('/:user_id',checktoken,verifytoken,Usercontroller.getOneUser)
 
-router.put('/:user_id',Usercontroller.updateUser)
+router.put('/:user_id',checktoken,verifytoken,Usercontroller.updateUser)
 
-router.delete('/:user_id',Usercontroller.deleteUser)
+router.delete('/:user_id',checktoken,verifytoken,Usercontroller.deleteUser)
 
 //skills
 

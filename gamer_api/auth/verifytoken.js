@@ -1,13 +1,14 @@
-    // const player = db.users;
     const db = require('../models');
     module.exports = {
     verifytoken : async (req,res,next)=>{
+    const Token = db.user_token;
     const Player = db.users;
-    let id = req.params.id
-    let users = await Player.findOne({ where: { id: id } });
-
+    let user_id = req.params.user_id
+    // console.log(user_id);
+    let users = await Token.findOne({ where: { user_id: user_id } });
+    // console.log(users);
     let usertoken =req.headers.authorization;
-    let reqtoken = users.token;
+    let reqtoken = users.device_token;
     let slicetoken = usertoken.slice(7);
     // console.log(reqtoken);
     // console.log(slicetoken);
@@ -19,7 +20,7 @@
     }else{
         return res.json({
             status:0,
-            message:"failed"
+            message:"The token doesn't match"
         });
     };
   }

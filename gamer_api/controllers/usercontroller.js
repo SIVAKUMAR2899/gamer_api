@@ -1,9 +1,10 @@
-//const { player, player, player } = require('../models')
 const { users } = require('../models');
+const { user_token } = require('../models');
 const db = require('../models');
 const { sign } = require('jsonwebtoken');
 const { hashSync,genSaltSync,compareSync } = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { text } = require('body-parser');
 const Player = db.users;
 const Token = db.user_token;
 
@@ -42,31 +43,38 @@ const login = async (req,res) => {
     }
     let userid = user.user_id;
     console.log(userid);
-        const result = compareSync(password,user.password);
-        if(result){
-            const newtoken = jwt.sign({ result: user},"abcd1234",{expiresIn:3600});
-            console.log(newtoken);
-            let token =await Token.create({device_token:newtoken},{where: {user_id:userid}});
-            console.log(token);
+    
+    let current = new Date();
+    let cDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
+    let cTime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+    let dateTime = cDate + ' ' + cTime;
+    console.log(dateTime);
+
+    const result = compareSync(password,user.password);
+    if(result){
+         const newtoken = jwt.sign({ result: user},"abcd1234",{expiresIn:3600});
+         console.log(newtoken);
+         let token =await Token.create({token_id:null,user_id:userid,device_token:newtoken,time:dateTime});
+         console.log(token);
             return res.json({
                 code:1,
                 message:"login success",
                 token:newtoken
             });
-        }else{
+    }else{
             return res.json({
                 code : 0,
                 message : "Invalid password",
 
             });
-        }
+    }  
 }
 
 // 3.update password
 
 const updatePassword = async (req,res) => {
 
-    const { email,oldpassword,newpassword} = req.body;
+    const { email,oldpassword,password } = req.body;
     let user = await Player.findOne({ where : { email : email}});
     if(!user){
         return res.json({
@@ -81,16 +89,13 @@ const updatePassword = async (req,res) => {
     console.log(Password);
 
     if(Password){
+       
         const salt = genSaltSync(10);
-        let hpassword = hashSync(newpassword,salt);
+        const hpassword = await hashSync(req.body.password,salt);
         console.log(hpassword);
-        const password=hpassword;
-        
-
-        const new_password = await Player.update(password,{ where: { user_id: userid}});
-        console.log(userid);
-        console.log(user.user_id);
-        console.log(Player.Password);
+       
+        const new_password = await Player.update({password: hpassword},{ where: { user_id: userid}});
+        console.log(new_password);
 
         return res.json({
             status:1,
