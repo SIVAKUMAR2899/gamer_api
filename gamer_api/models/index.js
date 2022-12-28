@@ -35,7 +35,7 @@ db.sequelize = sequelize
 
 
 db.users = require('./usermodel')(sequelize, DataTypes)
-db.user_token = require('./usertokenmodel')(sequelize, DataTypes)
+db.user_tokens = require('./usertokenmodel')(sequelize, DataTypes)
 
 db.sequelize.sync({ force: false })
 .then(() => {

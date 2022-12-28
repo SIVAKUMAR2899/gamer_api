@@ -1,7 +1,7 @@
 const dbconfig = require('../config/dbconfig');
 
 module.exports = (sequelize, DataTypes) => {
-    const Token = sequelize.define('user_token', {
+    const Token = sequelize.define('user_tokens', {
         token_id:{
             type: DataTypes.INTEGER,
             // allowNull: false,

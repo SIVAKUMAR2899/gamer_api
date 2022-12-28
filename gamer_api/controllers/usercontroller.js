@@ -1,12 +1,12 @@
 const { users } = require('../models');
-const { user_token } = require('../models');
+const { user_tokens } = require('../models');
 const db = require('../models');
 const { sign } = require('jsonwebtoken');
 const { hashSync,genSaltSync,compareSync } = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { text } = require('body-parser');
 const Player = db.users;
-const Token = db.user_token;
+const Token = db.user_tokens;
 
 //1.post method
 
@@ -54,13 +54,24 @@ const login = async (req,res) => {
     if(result){
          const newtoken = jwt.sign({ result: user},"abcd1234",{expiresIn:3600});
          console.log(newtoken);
-         let token =await Token.create({token_id:null,user_id:userid,device_token:newtoken,time:dateTime});
+
+         let token = await Token.findOne({ where : { user_id : userid}}); 
          console.log(token);
-            return res.json({
-                code:1,
-                message:"login success",
-                token:newtoken
-            });
+             if(token)
+             {
+                let updatetoken = await Token.update({device_token:newtoken},{where : {user_id:userid}});
+                console.log(updatetoken);
+            }else{
+                let token =await Token.create({token_id:null,user_id:userid,device_token:newtoken,time:dateTime});
+                console.log(token);
+            }
+
+
+        return res.json({
+            code:1,
+            message:"login success",
+            token:newtoken
+        });
     }else{
             return res.json({
                 code : 0,
