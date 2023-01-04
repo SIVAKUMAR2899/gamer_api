@@ -1,5 +1,7 @@
 const Usercontroller = require('../controllers/usercontroller');
-const Skillcontroller = require('../controllers/skillcontroller');
+const P_dicecontroller = require('../controllers/purchasedicecontroller');
+const P_boostercontroller = require('../controllers/p_boostercontroller');
+const dailybonuscontroller = require('../controllers/dailybonuscontroller');
 const {checktoken} = require('../auth/checktoken');
 const { verifytoken } = require('../auth/verifytoken');
 
@@ -20,16 +22,21 @@ router.put('/:user_id',checktoken,verifytoken,Usercontroller.updateUser)
 
 router.delete('/:user_id',checktoken,verifytoken,Usercontroller.deleteUser)
 
-//skills
+router.post('/purchasedice',P_dicecontroller.purchasedice)
 
-router.post('/addskill',Skillcontroller.addskills)
+router.post('/purchasebooster',P_boostercontroller.purchasebooster)
 
-router.get('/get/allskill',Skillcontroller.getallskills)
+router.post('/dailybonus',dailybonuscontroller.dailybonus)
 
-router.get('/get/:sid',Skillcontroller.getoneskills)
 
-router.put('/update/:sid',Skillcontroller.updateskills)
+// router.post('/addskill',Skillcontroller.addskills)
 
-router.delete('/delete/:sid',Skillcontroller.deleteskills)
+// router.get('/get/allskill',Skillcontroller.getallskills)
+
+// router.get('/get/:sid',Skillcontroller.getoneskills)
+
+// router.put('/update/:sid',Skillcontroller.updateskills)
+
+// router.delete('/delete/:sid',Skillcontroller.deleteskills)
 
 module.exports = router;
