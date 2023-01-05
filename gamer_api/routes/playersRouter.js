@@ -2,6 +2,8 @@ const Usercontroller = require('../controllers/usercontroller');
 const P_dicecontroller = require('../controllers/purchasedicecontroller');
 const P_boostercontroller = require('../controllers/p_boostercontroller');
 const dailybonuscontroller = require('../controllers/dailybonuscontroller');
+const claimbonuscontroller = require('../controllers/claimbonuscontroller');
+
 const {checktoken} = require('../auth/checktoken');
 const { verifytoken } = require('../auth/verifytoken');
 
@@ -28,15 +30,6 @@ router.post('/purchasebooster',P_boostercontroller.purchasebooster)
 
 router.post('/dailybonus',dailybonuscontroller.dailybonus)
 
-
-// router.post('/addskill',Skillcontroller.addskills)
-
-// router.get('/get/allskill',Skillcontroller.getallskills)
-
-// router.get('/get/:sid',Skillcontroller.getoneskills)
-
-// router.put('/update/:sid',Skillcontroller.updateskills)
-
-// router.delete('/delete/:sid',Skillcontroller.deleteskills)
+router.post('/claimbonus',claimbonuscontroller.daily_claim_bonus)
 
 module.exports = router;

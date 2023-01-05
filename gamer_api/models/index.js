@@ -39,6 +39,7 @@ db.user_tokens = require('./usertokenmodel')(sequelize, DataTypes)
 db.dice_purchases = require('./purchasedicemodel')(sequelize,DataTypes)
 db.booster_purchases = require('./purchaseboostermodel')(sequelize,DataTypes)
 db.daily_bonus_transactions = require('./dailybonus')(sequelize,DataTypes)
+db.bonuses = require('./claimbonus')(sequelize,DataTypes)
 
 db.sequelize.sync({ force: false })
 .then(() => {
