@@ -10,8 +10,12 @@ const purchasebooster = async (req, res) => {
     let dateTime = cDate + ' ' + cTime;
     console.log(dateTime);
 
-    let etime =current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + (current.getDate()+7)+ ' ' + cTime;
-    console.log(etime);
+    // let etime =current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + (current.getDate()+7)+ ' ' + cTime;
+    // console.log(etime);
+
+    let exptime = cDate + ' ' + cTime;
+    console.log(exptime);
+    if(exptime){}
 
     const body ={
         id:req.body.id,
